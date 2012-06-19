@@ -30,6 +30,7 @@ module Versionist
       route_hash = {:module => config[:module], :constraints => header}
       route_hash.merge!({:defaults => config[:defaults]}) if config.has_key?(:defaults)
       scope(route_hash, &block)
+      namespace(config[:value], {}, &block)
     end
 
     def configure_path(config, &block)
