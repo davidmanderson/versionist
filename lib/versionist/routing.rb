@@ -25,12 +25,13 @@ module Versionist
 
     private
 
+    # the header strategy will now also use config[:value] as the path for the version as well
     def configure_header(config, &block)
       header = Versionist::VersioningStrategy::Header.new(config)
       route_hash = {:module => config[:module], :constraints => header}
       route_hash.merge!({:defaults => config[:defaults]}) if config.has_key?(:defaults)
       scope(route_hash, &block)
-      namespace(config[:value], {}, &block)
+      namespace(config[:value], {:as => config[:value].gsub(/\W/, '_')}, &block)
     end
 
     def configure_path(config, &block)
